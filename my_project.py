@@ -52,10 +52,21 @@ class StyleAnalyzer:
 
 class RedFlagDetector:
     RED_FLAGS = {
-        "no drama",
-        "don't waste my time",
-        "must be rich",
-        "prove me wrong"
+    "no drama",
+    "don't waste my time",
+    "must be rich",
+    "prove me wrong",
+    "looking for trophy partner",
+    "only for fun",
+    "must be attractive",
+    "no commitment",
+    "players welcome",
+    "only here for hookups",
+    "drama free only",
+    "must have money",
+    "don't contact me if...",
+    "serious inquiries only",
+    "hit me up if..."
     }
 
     def analyze(self, text: str) -> list:
