@@ -17,9 +17,25 @@ class AnalysisResult:
 
 
 class StyleAnalyzer:
-    ROMANTIC_WORDS = {"love", "soul", "deep", "connection"}
-    PARTY_WORDS = {"fun", "club", "party", "drink"}
-    CAREER_WORDS = {"ambitious", "career", "success", "goal"}
+    ROMANTIC_WORDS = {"love", "loving", "romantic", "romance",
+    "soul", "soulmate", "deep", "connection",
+    "passion", "passionate", "heart", "feelings",
+    "affection", "intimacy", "chemistry",
+    "loyal", "loyalty", "caring", "sweet",
+    "honest", "trust", "together", "forever"}
+    PARTY_WORDS = { "fun", "club", "party", "drink", "drinks",
+    "nightlife", "dance", "dancing", "dj",
+    "music", "festival", "bar", "shots",
+    "weekend", "crazy", "wild", "adventure",
+    "social", "friends", "hangout",
+    "travel", "spontaneous", "energy"}
+    CAREER_WORDS = {"ambitious", "career", "success", "goal",
+    "goals", "driven", "focused", "growth",
+    "business", "entrepreneur", "startup",
+    "leader", "leadership", "professional",
+    "motivated", "discipline", "hardworking",
+    "achievement", "results", "strategy",
+    "development", "future", "independent"}
 
     def analyze(self, text: str) -> str:
         words = set(text.lower().split())
