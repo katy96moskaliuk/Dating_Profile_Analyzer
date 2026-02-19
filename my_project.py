@@ -15,13 +15,11 @@ class AnalysisResult:
 		return f"AnalysisResult(style={self.style}, red_flags={self.red_flags}, score={self.score})"
 	
 class StyleAnalizer:
-
 	ROMANTIC_WORDS = {"love", "soul", "deep", "connection"} 
 	PARTY_WORDS = {"fun", "club", "party", "drink"} 
 	CAREER_WORDS = {"ambitious", "career", "success", "goal"}
 
 	def analyze(self, text: str) -> str:
-
 		words = set(text.lover.split())
 		if words & self.ROMANTIC_WORDS:
 			return "Romantic"
@@ -47,6 +45,17 @@ class RedFlagDetector:
 		for flag in self.RED_FLAGS:
 			if flag in lovered:
 				found.append(flag)
+
 		return found
 	
-	
+class ProfileAnalizer:
+	def __init__(self):
+		self.style_analizer = StyleAnalizer()
+		self.red_flag_detector = RedFlagDetector()
+
+	def analize(self, profile: Profile) -> AnalysisResult:
+		style = self.style_analizer.analyze(profile.text)
+		red_flags = self.red_flag_detector.analize(profile.text)
+		score = 1.0 - (0.1  * len(red_flags))
+
+		return (style, red_flags, max(score, 0.0))
