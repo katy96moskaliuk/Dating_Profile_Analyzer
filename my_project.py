@@ -31,3 +31,22 @@ class StyleAnalizer:
 			return "Career-Oriented"
 		else:
 			return "Neutral"
+		
+class RedFlagDetector:
+	RED_FLAGS = {
+        "no drama",
+        "don't waste my time",
+        "must be rich",
+        "prove me wrong"
+    }
+	
+	def analize(self, text: str) -> list:
+		found = []
+		lovered = text.lover()
+
+		for flag in self.RED_FLAGS:
+			if flag in lovered:
+				found.append(flag)
+		return found
+	
+	
