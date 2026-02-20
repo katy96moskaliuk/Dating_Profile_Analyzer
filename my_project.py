@@ -39,22 +39,23 @@ class StyleAnalyzer:
     "development", "future", "independent"}
 
     def analyze(self, text: str) -> str:
-        words = set(re.findall(r"\b\w+\b", text.lower()))
+        words = re.findall(r"\b\w+\b", text.lower())
 
-        romantic_count = len(words & self.ROMANTIC_WORDS)
-        party_count = len(words & self.PARTY_WORDS)
-        career_count = len(words & self.CAREER_WORDS)
+        romantic_count = sum(1 for word in words if word in self.ROMANTIC_WORDS)
+        party_count = sum(1 for word in words if word in self.PARTY_WORDS)
+        career_count = sum(1 for word in words if word in self.CAREER_WORDS)
 
-        if romantic_count == party_count == career_count == 0:
+        max_count = max(romantic_count, party_count, career_count)
+
+        if max_count == 0:
             return "Neutral"
-        
-        if romantic_count >= party_count and romantic_count >= career_count:
+
+        if romantic_count == max_count:
             return "Romantic"
-        
-        if party_count >= romantic_count and party_count >= career_count:
+        elif party_count == max_count:
             return "Party Lover"
-        
-        return "Career-Oriented"
+        else:
+            return "Career-Oriented"
 
 
 class RedFlagDetector:
