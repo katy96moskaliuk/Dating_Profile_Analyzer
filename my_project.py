@@ -3,6 +3,10 @@ from nltk.stem import WordNetLemmatizer
 import nltk
 nltk.download('wordnet') 
 
+def load_words(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return{line.strip() for line in f if line.strip()}
+
 
 class Profile:
     def __init__(self, text: str):
@@ -23,28 +27,13 @@ class AnalysisResult:
 
 
 class StyleAnalyzer:
-    ROMANTIC_WORDS = {"love", "loving", "romantic", "romance",
-    "soul", "soulmate", "deep", "connection",
-    "passion", "passionate", "heart", "feelings",
-    "affection", "intimacy", "chemistry",
-    "loyal", "loyalty", "caring", "sweet",
-    "honest", "trust", "together", "forever"}
-    PARTY_WORDS = { "fun", "club", "party", "drink", "drinks",
-    "nightlife", "dance", "dancing", "dj",
-    "music", "festival", "bar", "shots",
-    "weekend", "crazy", "wild", "adventure",
-    "social", "friends", "hangout",
-    "travel", "spontaneous", "energy"}
-    CAREER_WORDS = {"ambitious", "career", "success", "goal",
-    "goals", "driven", "focused", "growth",
-    "business", "entrepreneur", "startup",
-    "leader", "leadership", "professional",
-    "motivated", "discipline", "hardworking",
-    "achievement", "results", "strategy",
-    "development", "future", "independent"}
-
     def __init__(self):
         self.lemmatizer = WordNetLemmatizer()
+
+        self.ROMANTIC_WORDS = load_words("romantic_words.txt")
+        self.PARTY_WORDS = load_words("party_words.txt")
+        self.CAREER_WORDS = load_words("career_words.txt")
+        
         self.ROMANTIC_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.ROMANTIC_WORDS)
         self.PARTY_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.PARTY_WORDS)
         self.CAREER_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.CAREER_WORDS)
@@ -70,23 +59,8 @@ class StyleAnalyzer:
         }
 
 class RedFlagDetector:
-    RED_FLAGS = {
-    "no drama",
-    "don't waste my time",
-    "must be rich",
-    "prove me wrong",
-    "looking for trophy partner",
-    "only for fun",
-    "must be attractive",
-    "no commitment",
-    "players welcome",
-    "only here for hookups",
-    "drama free only",
-    "must have money",
-    "don't contact me if...",
-    "serious inquiries only",
-    "hit me up if..."
-    }
+    def __init__(self):
+       self.RED_FLAGS = load_words("red_flags.txt")
 
     def analyze(self, text: str) -> list:
         found = []
@@ -96,7 +70,7 @@ class RedFlagDetector:
             pattern = r'\b' + re.escape(flag) + r'\b'
             if re.search(pattern, lowered):
                 found.append(flag)
-                
+
         return found
 
 
