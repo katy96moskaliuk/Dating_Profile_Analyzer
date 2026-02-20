@@ -41,14 +41,20 @@ class StyleAnalyzer:
     def analyze(self, text: str) -> str:
         words = set(re.findall(r"\b\w+\b", text.lower()))
 
-        if words & self.ROMANTIC_WORDS:
-            return "Romantic"
-        elif words & self.PARTY_WORDS:
-            return "Party Lover"
-        elif words & self.CAREER_WORDS:
-            return "Career-Oriented"
-        else:
+        romantic_count = len(words & self.ROMANTIC_WORDS)
+        party_count = len(words & self.PARTY_WORDS)
+        career_count = len(words & self.CAREER_WORDS)
+
+        if romantic_count == party_count == career_count == 0:
             return "Neutral"
+        
+        if romantic_count >= party_count and romantic_count >= career_count:
+            return "Romantic"
+        
+        if party_count >= romantic_count and party_count >= career_count:
+            return "Party Lover"
+        
+        return "Career-Oriented"
 
 
 class RedFlagDetector:
