@@ -1,3 +1,4 @@
+import re
 class Profile:
     def __init__(self, text: str):
         self.text = text.strip()
@@ -38,7 +39,7 @@ class StyleAnalyzer:
     "development", "future", "independent"}
 
     def analyze(self, text: str) -> str:
-        words = set(text.lower().split())
+        words = set(re.findall(r"\b\w+\b", text.lower()))
 
         if words & self.ROMANTIC_WORDS:
             return "Romantic"
