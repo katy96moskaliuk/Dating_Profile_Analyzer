@@ -96,7 +96,14 @@ class ProfileAnalyzer:
     def analyze(self, profile: Profile) -> AnalysisResult:
         style = self.style_analyzer.analyze(profile.text)
         red_flags = self.red_flag_detector.analyze(profile.text)
-        score = 1.0 - (0.1 * len(red_flags))
+
+        base_score = 1.0
+        penalty = 0.15 * len(red_flags)
+
+        if len(profile.text) < 30:
+            penalty += 0.1
+
+        score = max(base_score - penalty, 0.0)
 
         return AnalysisResult(style, red_flags, max(score, 0.0))
 
