@@ -1,4 +1,9 @@
 import re
+from nltk.stem import WordNetLemmatizer
+import nltk
+nltk.download('wordnet') 
+
+
 class Profile:
     def __init__(self, text: str):
         self.text = text.strip()
@@ -38,25 +43,31 @@ class StyleAnalyzer:
     "achievement", "results", "strategy",
     "development", "future", "independent"}
 
+    def __init__(self):
+        self.lemmatizer = WordNetLemmatizer()
+        self.ROMANTIC_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.ROMANTIC_WORDS)
+        self.PARTY_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.PARTY_WORDS)
+        self.CAREER_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.CAREER_WORDS)
+
     def analyze(self, text: str) -> str:
         words = re.findall(r"\b\w+\b", text.lower())
+    
+        lemmas = [self.lemmatizer.lemmatize(word, pos='v') for word in words]
 
-        romantic_count = sum(1 for word in words if word in self.ROMANTIC_WORDS)
-        party_count = sum(1 for word in words if word in self.PARTY_WORDS)
-        career_count = sum(1 for word in words if word in self.CAREER_WORDS)
+        romantic_count = sum(1 for word in lemmas if word in self.ROMANTIC_LEMMAS)
+        party_count = sum(1 for word in lemmas if word in self.PARTY_LEMMAS)
+        career_count = sum(1 for word in lemmas if word in self.CAREER_LEMMAS)
 
-        max_count = max(romantic_count, party_count, career_count)
+        total = romantic_count + party_count + career_count
 
-        if max_count == 0:
-            return "Neutral"
+        if total == 0:
+            return {"Neutral": 100}
 
-        if romantic_count == max_count:
-            return "Romantic"
-        elif party_count == max_count:
-            return "Party Lover"
-        else:
-            return "Career-Oriented"
-
+        return {
+            "Romantic": round(romantic_count / total * 100),
+            "Party Lover": round(party_count / total * 100),
+            "Career-Oriented": round(career_count / total * 100)
+        }
 
 class RedFlagDetector:
     RED_FLAGS = {
