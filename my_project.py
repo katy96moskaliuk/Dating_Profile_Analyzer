@@ -93,9 +93,10 @@ class RedFlagDetector:
         lowered = text.lower()
 
         for flag in self.RED_FLAGS:
-            if flag in lowered:
+            pattern = r'\b' + re.escape(flag) + r'\b'
+            if re.search(pattern, lowered):
                 found.append(flag)
-
+                
         return found
 
 
