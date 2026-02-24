@@ -2,11 +2,11 @@
 <html>
 <head>
     <title>Dating Profile Analyzer</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Dating Profile Analyzer</h1>
 
-    <!-- Форма для ввода профиля -->
     <form method="POST">
         <textarea name="profile_text" rows="6" cols="50">{{ text }}</textarea><br><br>
         <button type="submit">Analyze</button>
