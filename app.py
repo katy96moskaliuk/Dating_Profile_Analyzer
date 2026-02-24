@@ -1,17 +1,20 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request   
 from my_project import Profile, ProfileAnalyzer   
 
 app = Flask(__name__)
 analyzer = ProfileAnalyzer()  
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])   
 def home():
-    test_text = "I love romantic dinners and building my career."
-    
-    profile = Profile(test_text)
-    result = analyzer.analyze(profile)
+    text = ""        
+    result = None    
 
-    return render_template("index.html", text=test_text, result=result)
+    if request.method == "POST":
+        text = request.form["profile_text"]   
+        profile = Profile(text)
+        result = analyzer.analyze(profile)
+    
+    return render_template("index.html", text=text, result=result)
 
 if __name__ == "__main__":
     app.run(debug=True)
