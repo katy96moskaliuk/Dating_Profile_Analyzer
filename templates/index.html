@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dating Profile Analyzer</title>
+</head>
+<body>
+    <h1>Dating Profile Analyzer</h1>
+
+    <!-- Форма для ввода профиля -->
+    <form method="POST">
+        <textarea name="profile_text" rows="6" cols="50">{{ text }}</textarea><br><br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+        <h2>Analysis Result</h2>
+        <p><b>Style:</b> {{ result.style }}</p>
+        <p><b>Red Flags:</b> {{ result.red_flags }}</p>
+        <p><b>Score:</b> {{ result.score }}</p>
+    {% endif %}
+</body>
+</html>

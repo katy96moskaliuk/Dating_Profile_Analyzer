@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from my_project import Profile, ProfileAnalyzer   
 
 app = Flask(__name__)
@@ -11,13 +11,7 @@ def home():
     profile = Profile(test_text)
     result = analyzer.analyze(profile)
 
-    return f"""
-    <h1>Dating Profile Analyzer</h1>
-    <p><b>Text:</b> {test_text}</p>
-    <p><b>Style:</b> {result.style}</p>
-    <p><b>Red Flags:</b> {result.red_flags}</p>
-    <p><b>Score:</b> {result.score}</p>
-    """
+    return render_template("index.html", text=test_text, result=result)
 
 if __name__ == "__main__":
     app.run(debug=True)
