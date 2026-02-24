@@ -38,7 +38,7 @@ class StyleAnalyzer:
         self.PARTY_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.PARTY_WORDS)
         self.CAREER_LEMMAS = set(self.lemmatizer.lemmatize(word, pos='v') for word in self.CAREER_WORDS)
 
-    def analyze(self, text: str) -> str:
+    def analyze(self, text: str) -> dict:
         words = re.findall(r"\b\w+\b", text.lower())
     
         lemmas = [self.lemmatizer.lemmatize(word, pos='v') for word in words]
